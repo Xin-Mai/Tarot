@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>tarot</title>
+		<style>
+			@property --rotate {
+				syntax: "<angle>";
+				initial-value: 132deg;
+				inherits: false;
+			}
+			:root {
+				--card-height: 65vh;
+				--card-width: calc(var(--card-height) / 1.5);
+			}
+
+			body {
+				min-height: 100vh;
+				background: #212534;
+				padding-top: 2rem;
+				padding-bottom: 2rem;
+				box-sizing: border-box;
+			}
+
+			.re-item {
+				width: var(--card-width);
+				margin: 50px auto;
+				height: var(--card-height);
+				text-align: center;
+				position: relative;
+				/* perspective: 500;
+				-webkit-perspective: 500; */
+			}
+			
+			.re-item-front,
+			.re-item-back {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				color: rgb(88 199 250 / 0%);
+				background-color: #191c29;
+				border: 0px solid;
+				border-radius: 25px;
+				/* perspective: 1000; */
+				backface-visibility: hidden;
+				/* -webkit-perspective: 1000; */
+				transition: all 2.5s;
+			}
+			
+			.re-item-back {
+				position: relative;
+				color: white;
+				background: linear-gradient( #e8a, #4e00c2, #191c29);
+				transform: rotateY(-180deg);
+				-webkit-transform: rotateY(-180deg);
+				backface-visibility: hidden;
+			}
+
+			.re-item-back .wheel {
+				height: 50%;
+				width: 50%;
+				position: absolute;
+				top: 20%;
+				left: 50%;
+				z-index: 3;
+				transform: translateX(-50%);
+				background: rgba(0, 0, 0, 0) url('img/clock.png') no-repeat;
+				background-position:center;
+				background-size: contain;
+				backface-visibility: hidden;
+				/* transform: rotate(var(--rotate));
+				animation: spin 180s linear infinite;	 */
+			}
+
+			.re-item-back .wave-container {
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				left: 0;
+				border: 0px solid;
+				border-radius: 25px;
+				overflow: hidden;
+			}
+
+			.wave {
+				z-index: -3;
+				opacity: .4;
+				position: absolute;
+				top: 3%;
+				left: 50%;
+				background: #3c67e3 43%;
+				/* background: #0af; */
+				width: 500px;
+				height: 500px;
+				margin-left: -250px;
+				margin-top: -250px;
+				transform-origin: 50% 48%;
+				border-radius: 43%;
+				animation: drift 3000ms infinite linear;
+			}
+
+			.wave.-three {
+				animation: drift 5000ms infinite linear;
+			}
+
+			.wave.-two {
+				animation: drift 7000ms infinite linear;
+				opacity: .1;
+				background: yellow;
+			}
+
+			@keyframes drift {
+				from { transform: rotate(0deg); }
+				from { transform: rotate(360deg); }
+			}
+
+			.re-item-back .cloud-1 {
+				width: 160%;
+				height: 30%;
+				position: absolute;
+				bottom: 10%;
+				left: -50%;
+				background: rgba(0, 0, 0, 0) url('img/cloud1.png') no-repeat;
+				background-size: contain;
+			}
+			
+			.keepout {
+				width: 115%;
+				height: 100%;
+				z-index: 2;
+				position: absolute;
+				top: 25%;
+				right: -30%;
+				transform: rotate(-20deg);
+				/* transform: rotateX(45deg) rotateY(5deg); */
+				background: rgba(0, 0, 0, 0) url('img/cuation.png') no-repeat;
+				background-size: contain;
+				animation: updown 5s linear infinite;
+			}
+
+			.cuation {
+				width: 120%;
+				height: 30%;
+				position: absolute;
+				top: 45%;
+				left: -16%;
+				z-index: 4;
+				transform: rotate(20deg);
+				background: rgba(0, 0, 0, 0) url('img/cuation.png') no-repeat;
+				background-size: contain;
+				/* transform: translateY(var(--distance)); */
+				animation: downup 5s linear infinite;
+			}
+
+			.re-item-back .wave-container .background-container {
+				width: 110%;
+				height: 40%;
+				position: absolute;
+				top: -9%;
+				left: 6%;
+				transform: rotate(-150deg);
+			}
+
+			.lion {
+				width: 60%;
+				height: 60%;
+				position: absolute;
+				top: 10%;
+				right: 0;
+				transform: rotate(-35deg);
+				background: rgba(0, 0, 0, 0) url('img/lion.png') no-repeat;
+				background-size: cover;
+				z-index: 2;
+			}
+
+			.angel {
+				width: 100%;
+				height: 80%;
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				background: rgba(0, 0, 0, 0) url('img/angel.png') no-repeat;
+				background-size: contain;
+				z-index: 1;
+			}
+
+			.left {
+				z-index: 0;
+				transform: rotate(-40deg) translate(20%,15%);
+			}
+
+			.re-item-front::before
+			/* .re-item-back::before */
+			{
+				content: "";
+				width: 104%;
+				height: 102%;
+				border-radius: 25px;
+				background-image: linear-gradient(
+					var(--rotate)
+					, #5ddcff, #3c67e3 43%, #4e00c2);
+				position: absolute;
+				z-index: -1;
+				top: -1%;
+				left: -2%;
+				animation: spin 2.5s linear infinite;
+			}
+
+			/* .re-item-back::before {
+				transform: rotateY(-180deg);
+			} */
+			
+			.re-item::after {
+				position: absolute;
+				content: "";
+				top: calc(var(--card-height) / 6);
+				left: 0;
+				right: 0;
+				z-index: -1;
+				height: 100%;
+				width: 100%;
+				margin: 0 auto;
+				transform: scale(0.8);
+				filter: blur(calc(var(--card-height) / 6));
+				background-image: linear-gradient(
+				var(--rotate)
+				, #5ddcff, #3c67e3 43%, #4e00c2);
+				opacity: 1;
+				transition: all 2.5s;
+				animation: spin 2.5s linear infinite;	
+			}
+
+			@keyframes spin {
+				0% {
+					--rotate: 0deg;
+				}
+				100% {
+					--rotate: 360deg;
+				}
+			}
+
+			@keyframes updown {
+				0% {
+					transform: rotate(-20deg) translateY(0);
+				}
+				50% {
+					transform: rotate(-20deg) translateY(14px);
+				}
+				100% {
+					transform: rotate(-20deg) translateY(0);
+				}
+			}
+
+			@keyframes downup {
+				0% {
+					transform: rotate(20deg) translateY(0);
+				}
+				50% {
+					transform: rotate(20deg) translateY(-20px);
+				}
+				100% {
+					transform: rotate(20deg) translateY(0);
+				}
+			}
+
+			.re-item:hover .re-item-front {
+				transform: rotateY(-180deg);
+				-webkit-transform: rotateY(-180deg);
+			}
+
+			.re-item-front:hover:before, .re-item-front:hover:after {
+				animation: none;
+				opacity: 0;
+				background-image: none;
+				transition: all 2.5s;
+			}
+			
+			.re-item:hover .re-item-back {
+				transform: rotateY(-360deg);
+				-webkit-transform: rotateY(-360deg);
+			}
+
+			.title {
+				width: 100px;
+				position: absolute;
+				bottom: 10px;
+				left: 10px;
+				text-align: start;
+				white-space: pre-wrap;
+				word-break: keep-all;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div class="re-item">
+			<div class="re-item-front">front</div>
+			<div class="re-item-back">
+        
+        <div class="wave-container">
+          <div class="keepout"></div>
+          <div class="wheel"></div>
+          <div class="cuation"></div>
+          <div class="background-container">
+						<div class="angel"></div>
+						<div class="angel left"></div>
+            <div class="lion"></div>
+          </div>
+          <div class='wave -one'></div>
+          <div class='wave -two'></div>
+          <div class='wave -three'></div>
+        </div>
+        <p class="title">THE<br/>WHEEL<br/>OF<br/>FOURTUNE</p>
+      </div>
+		</div>
+	</body>
+</html>
